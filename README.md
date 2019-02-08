@@ -4,6 +4,9 @@ Arduino project that animates WS2812 LEDs decorating a UFO prop by an IR remote 
 
 https://jethomson.wordpress.com/2018/10/31/halloween-2018-lilliputian-alien-abduction/
 
+The code can create 22 different animations (referred to as patterns in the code) on the strip of LEDs that run around the rim of the UFO. Some of the patterns can be run in both directions and have variable speed. The pattern names are orbit, theater chase, running lights, shooting star, cylon, solid, juggle, mitosis, bubbles, sparkle, matrix, weave, starship race, pac man, bouncing balls, halloween colors fade, halloween colors orbit, sound ribbons, sound ripple, sound orbit, sound blocks, and dynamic rainbow. There are also effects (called overlays in the code) that can be added to a pattern to make it more dynamic. The overlays are breath, flicker, glitter, and fade randomly. The color of a pattern can be set as a static color, a color that evolves, or a random color on every draw.
+
+
 Remote Key
 ----------
 [01][02][03][04]  
