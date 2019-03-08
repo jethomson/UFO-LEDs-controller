@@ -9,8 +9,8 @@ Arduino project that animates WS2812 LEDs decorating a UFO prop by an IR remote 
 [Simplified code to make it more easy to demo all of the patterns](https://github.com/jethomson/ReAnimator-demo)
 
 N.B.
---This projects compiles to a large hex file that only fits on an Arduino with 32k of program storage space and that uses a bootloader that is 0.5k (i.e. optiboot with the boot flash section size = 256 words). It should fit fine on an Uno. I developed the code on a Nano, but had to change its fuse settings and bootloader.
---This code hasn't been tested on an LED strip longer than 60 LEDs. It might have problems with an LED strip longer than 255 LEDs.
+--This projects compiles to a large hex file that only fits on an Arduino with 32k of program storage space and that uses a bootloader that is 0.5k (i.e. optiboot with the boot flash section size = 256 words). It should fit fine on an Uno. I developed the code on a Nano, but had to change its fuse settings and bootloader.  
+--This code hasn't been tested on an LED strip longer than 60 LEDs. It might have problems with an LED strip longer than 255 LEDs.  
 
 
 Remote Key
