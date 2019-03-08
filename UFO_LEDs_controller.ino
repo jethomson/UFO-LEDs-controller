@@ -1,5 +1,5 @@
 /*
-  This code is copyright 2018 Jonathan Thomson, jethomson.wordpress.com
+  This code is copyright 2019 Jonathan Thomson, jethomson.wordpress.com
 
   Permission to use, copy, modify, and distribute this software
   and its documentation for any purpose and without fee is hereby
@@ -26,7 +26,6 @@
 
 #define SPEAKER_PIN 4
 
-//#define IR_RECV_PIN 7
 #define IR_RECV_PIN 12
 #define PAUSE_FOR_IR_INTERVAL 2000
 
@@ -60,7 +59,6 @@ uint8_t status_led_state = LOW;
 
 enum Direction {DOWN = -1, NEUTRAL = 0, UP = 1};
 
-//ReAnimator GlowSerum(rim_leds, &gstatic_hue, LED_STRIP_INITIAL_MILLIAMPS);
 ReAnimator GlowSerum(rim_leds, beam_leds, helm_leds, &gdynamic_hue, &gstatic_beam_hue, LED_STRIP_INITIAL_MILLIAMPS);
 
 
@@ -207,7 +205,7 @@ void setup() {
 
     pinMode(status_led_pin, OUTPUT);     
 
-    Serial.begin(57600);
+    //Serial.begin(57600);
     irrecv.enableIRIn(); // Start the receiver
 
     FastLED.setMaxPowerInVoltsAndMilliamps(LED_STRIP_VOLTAGE, LED_STRIP_INITIAL_MILLIAMPS);
@@ -215,6 +213,8 @@ void setup() {
     FastLED.addLeds<WS2812B, RIM_LEDS_DATA_PIN, GRB>(rim_leds, NUM_RIM_LEDS);
     FastLED.addLeds<WS2812B, BEAM_LEDS_DATA_PIN, GRB>(beam_leds, NUM_BEAM_LEDS);
     FastLED.addLeds<WS2812B, HELM_LEDS_DATA_PIN, GRB>(helm_leds, NUM_HELM_LEDS);
+
+    random16_set_seed(analogRead(A0));
 
     beep(2);
 }
@@ -234,7 +234,7 @@ void loop() {
                                                    WEAVE, STARSHIP_RACE, PAC_MAN, BALLS,
                                                    HALLOWEEN_FADE, HALLOWEEN_ORBIT,
                                                    DYNAMIC_RAINBOW};
-    const Overlay blue_button_overlays[BBP_NUM] = {BREATH, NO_OVERLAY, NO_OVERLAY, NO_OVERLAY, NO_OVERLAY, FLICKER, NO_OVERLAY,
+    const Overlay blue_button_overlays[BBP_NUM] = {BREATHING, NO_OVERLAY, NO_OVERLAY, NO_OVERLAY, NO_OVERLAY, FLICKER, NO_OVERLAY,
                                                    NO_OVERLAY, NO_OVERLAY, NO_OVERLAY, NO_OVERLAY,
                                                    NO_OVERLAY, NO_OVERLAY,
                                                    NO_OVERLAY};
@@ -373,49 +373,49 @@ void loop() {
                     DEBUG_PRINTLN("Left1");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(ORBIT_LEFT);
+                    GlowSerum.set_pattern(ORBIT, true);
                     break;
                 case 0xF750AF: // Right1
                     DEBUG_PRINTLN("Right1");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(ORBIT_RIGHT);
+                    GlowSerum.set_pattern(ORBIT);
                     break;
                 case 0xF7B04F: // Left2
                     DEBUG_PRINTLN("Left2");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(THEATER_CHASE_LEFT);
+                    GlowSerum.set_pattern(THEATER_CHASE, true);
                     break;
                 case 0xF7708F: // Right2
                     DEBUG_PRINTLN("Right2");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(THEATER_CHASE_RIGHT);
+                    GlowSerum.set_pattern(THEATER_CHASE);
                     break;
                 case 0xF78877: // Left3
                     DEBUG_PRINTLN("Left3");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(RUNNING_LIGHTS_LEFT);
+                    GlowSerum.set_pattern(RUNNING_LIGHTS, true);
                     break;
                 case 0xF748B7: // Right3
                     DEBUG_PRINTLN("Right3");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(RUNNING_LIGHTS_RIGHT);
+                    GlowSerum.set_pattern(RUNNING_LIGHTS);
                     break;
                 case 0xF7A857: // Left4
                     DEBUG_PRINTLN("Left4");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(SHOOTING_STAR_LEFT);
+                    GlowSerum.set_pattern(SHOOTING_STAR, true);
                     break;
                 case 0xF76897: // Right4
                     DEBUG_PRINTLN("Right4");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_pattern(SHOOTING_STAR_RIGHT);
+                    GlowSerum.set_pattern(SHOOTING_STAR);
                     break;
                 case 0xF7E817: // Meteor: similar to Loop effect, but reverses at the end of the strip
                     DEBUG_PRINTLN("Meteor");
@@ -428,15 +428,15 @@ void loop() {
                     DEBUG_PRINTLN("Auto");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_autocycle(true);
-                    GlowSerum.set_flip_flop_animation(false);
+                    GlowSerum.set_autocycle_enabled(!GlowSerum.get_autocycle_enabled());
+                    GlowSerum.set_flipflop_enabled(false);
                     break;
                 case 0xF7D02F: // Loop (circular arrows button): Alternate between the current pattern and the next pattern
                     DEBUG_PRINTLN("Loop");
                     previous_ir_code = 0x00000001;
                     animations_paused = false;
-                    GlowSerum.set_autocycle(false);
-                    GlowSerum.set_flip_flop_animation(true);
+                    GlowSerum.set_autocycle_enabled(false);
+                    GlowSerum.set_flipflop_enabled(!GlowSerum.get_flipflop_enabled());
                     break;
             //++++++++++ OVERLAYS BUTTONS ++++++++++
                 case 0xF7F00F: // Flash
@@ -483,10 +483,10 @@ void loop() {
             GlowSerum.set_sound_value_gain(SOUND_VALUE_GAIN_INITIAL);
             gbpi = 0;
             bbpi = 0;
-            GlowSerum.set_pattern(RUNNING_LIGHTS_RIGHT);
+            GlowSerum.set_pattern(RUNNING_LIGHTS);
             GlowSerum.set_overlay(NO_OVERLAY, true);
-            GlowSerum.set_autocycle(false);
-            GlowSerum.set_flip_flop_animation(true);
+            GlowSerum.set_autocycle_enabled(false);
+            GlowSerum.set_flipflop_enabled(true);
             is_accepting_commands = true;
             animations_paused = false;
             beep(0);
@@ -507,8 +507,7 @@ void loop() {
 
         GlowSerum.reanimate();
 
-        EVERY_N_MILLISECONDS(100) { gdynamic_hue+=3; }
-        EVERY_N_MILLISECONDS(100) { grandom_hue = random8(); }
+        EVERY_N_MILLISECONDS(100) { gdynamic_hue+=3; grandom_hue = random8(); }
     }
 
     if (irrecv.isIdle()) {

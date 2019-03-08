@@ -1,5 +1,5 @@
 /*
-  This code is copyright 2018 Jonathan Thomson, jethomson.wordpress.com
+  This code is copyright 2019 Jonathan Thomson, jethomson.wordpress.com
 
   Permission to use, copy, modify, and distribute this software
   and its documentation for any purpose and without fee is hereby
@@ -49,17 +49,15 @@
 #define SOUND_VALUE_GAIN_INITIAL 1
 #define HUE_ALIEN_GREEN 112
 
-enum Pattern {            ORBIT_LEFT = 0,          ORBIT_RIGHT = 1,
-                  THEATER_CHASE_LEFT = 2,  THEATER_CHASE_RIGHT = 3,
-                 RUNNING_LIGHTS_LEFT = 4, RUNNING_LIGHTS_RIGHT = 5,
-                  SHOOTING_STAR_LEFT = 6,  SHOOTING_STAR_RIGHT = 7,
-                 CYLON = 8, SOLID = 9, JUGGLE = 10, MITOSIS = 11, 
-                 BUBBLES = 12, SPARKLE = 13, MATRIX = 14, WEAVE = 15,
-                 STARSHIP_RACE = 16, PAC_MAN = 17, BALLS = 18, 
-                 HALLOWEEN_FADE = 19, HALLOWEEN_ORBIT = 20, 
-                 SOUND_RIBBONS = 21, SOUND_RIPPLE = 22, SOUND_BLOCKS = 23, SOUND_ORBIT = 24,
-                 DYNAMIC_RAINBOW = 25};
-enum Overlay {NO_OVERLAY = 0, GLITTER = 1, BREATH = 2, CONFETTI = 3, FLICKER = 4, DECAY = 5};
+enum Pattern {            ORBIT = 0, THEATER_CHASE = 1,
+                 RUNNING_LIGHTS = 2, SHOOTING_STAR = 3,
+                 CYLON = 4, SOLID = 5, JUGGLE = 6, MITOSIS = 7, 
+                 BUBBLES = 8, SPARKLE = 9, MATRIX = 10, WEAVE = 11,
+                 STARSHIP_RACE = 12, PAC_MAN = 13, BALLS = 14, 
+                 HALLOWEEN_FADE = 15, HALLOWEEN_ORBIT = 16, 
+                 SOUND_RIBBONS = 17, SOUND_RIPPLE = 18, SOUND_BLOCKS = 19, SOUND_ORBIT = 20,
+                 DYNAMIC_RAINBOW = 21};
+enum Overlay {NO_OVERLAY = 0, GLITTER = 1, BREATHING = 2, CONFETTI = 3, FLICKER = 4, FROZEN_DECAY = 5};
 
 #endif
 
