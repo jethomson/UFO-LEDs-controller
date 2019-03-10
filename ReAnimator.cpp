@@ -416,9 +416,9 @@ void ReAnimator::reanimate() {
 
 
 void ReAnimator::run_pattern(Pattern pattern) {
-   int8_t retval = 0;
-   uint8_t orbit_delta = !reverse ? 1 : -1;
-   uint16_t(ReAnimator::*dfp)(uint16_t) = !reverse ? direction_fp : antidirection_fp;
+    int8_t retval = 0;
+    uint8_t orbit_delta = !reverse ? 1 : -1;
+    uint16_t(ReAnimator::*dfp)(uint16_t) = !reverse ? direction_fp : antidirection_fp;
 
     switch(pattern) {
         default:
